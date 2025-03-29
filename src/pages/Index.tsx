@@ -23,7 +23,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="w-full md:w-1/2 space-y-6">
               <div className="inline-block px-4 py-2 bg-[#FCBF49] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] font-bold rounded-lg transform -rotate-2">
-                <span className="text-lg">Designed for neurodiverse minds</span>
+                <span className="text-lg">Designed by a neurodiverse mind for neurodiverse minds</span>
               </div>
               
               <h1 className="text-5xl md:text-7xl font-bold leading-tight">
