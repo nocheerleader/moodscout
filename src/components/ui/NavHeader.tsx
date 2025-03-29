@@ -36,7 +36,7 @@ function NavHeader() {
         {/* Desktop Navigation - hidden on mobile */}
         <div className="hidden md:flex md:justify-center md:w-full md:absolute md:left-0">
           <ul
-            className="relative flex w-fit rounded-full border-2 border-black bg-white p-1"
+            className="relative flex w-fit rounded-full border-4 border-[#ffcf00] bg-purple p-1"
             onMouseLeave={() => setPosition((pv) => ({ ...pv, opacity: 0 }))}
           >
             <Tab setPosition={setPosition} to="/">Home</Tab>
@@ -183,7 +183,7 @@ const Cursor = ({ position }: { position: PositionType }) => {
   return (
     <motion.li
       animate={position}
-      className="absolute z-0 h-7 rounded-full bg-pink-500 md:h-12"
+      className="absolute z-0 h-7 rounded-full bg-[#ffcf00] md:h-12"
     />
   );
 };
