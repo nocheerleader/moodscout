@@ -11,6 +11,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import HistoryItem from '@/components/history/HistoryItem';
 import type { AnalysisResult } from '@/components/analyzer/ResultsSection';
+import type { Json } from '@/integrations/supabase/types';
 
 interface Analysis {
   id: string;
@@ -46,7 +47,16 @@ const History = () => {
         throw new Error(error.message);
       }
       
-      setAnalyses(data || []);
+      // Transform the data to ensure analysis_result is properly typed
+      const typedAnalyses: Analysis[] = (data || []).map(item => ({
+        id: item.id,
+        created_at: item.created_at,
+        input_text: item.input_text,
+        user_id: item.user_id,
+        analysis_result: item.analysis_result as AnalysisResult
+      }));
+      
+      setAnalyses(typedAnalyses);
     } catch (err: any) {
       console.error('Error fetching analyses:', err);
       setError(err.message || 'Failed to load analysis history');
