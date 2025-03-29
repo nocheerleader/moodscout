@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
@@ -7,6 +6,35 @@ import AnalyzerHeader from '@/components/analyzer/AnalyzerHeader';
 import InputSection from '@/components/analyzer/InputSection';
 import ResultsSection from '@/components/analyzer/ResultsSection';
 import type { AnalysisResult } from '@/components/analyzer/ResultsSection';
+
+// Helper function to extract tone from analysis text (client-side fallback)
+const extractToneFromAnalysis = (analysis: string): string => {
+  // Look for specific tone descriptions in the analysis
+  if (/tone is (friendly|warm|kind|casual|conversational)/i.test(analysis) || 
+      /(friendly|warm|kind|casual|conversational) tone/i.test(analysis)) {
+    return 'friendly';
+  }
+  
+  if (/tone is (formal|professional|serious|businesslike|assertive)/i.test(analysis) || 
+      /(formal|professional|serious|businesslike|assertive) tone/i.test(analysis) || 
+      /tone is (aggressive|angry|impatient)/i.test(analysis)) {
+    return 'formal';
+  }
+  
+  if (/tone is (excited|enthusiastic|energetic|passionate|upbeat)/i.test(analysis) || 
+      /(excited|enthusiastic|energetic|passionate|upbeat) tone/i.test(analysis)) {
+    return 'excited';
+  }
+  
+  if (/tone is (calm|peaceful|relaxed|soothing|tranquil)/i.test(analysis) || 
+      /(calm|peaceful|relaxed|soothing|tranquil) tone/i.test(analysis) || 
+      /tone is (sad|melancholic|depressed)/i.test(analysis)) {
+    return 'calm';
+  }
+  
+  // Default to formal for negative emotions or calm for neutral
+  return 'formal';
+};
 
 const Analyzer = () => {
   const { user, signOut } = useAuth();
@@ -37,7 +65,13 @@ const Analyzer = () => {
         throw new Error(error.message);
       }
       
-      setResult(data as AnalysisResult);
+      // Ensure the tone field exists
+      const processedResult = { ...(data as AnalysisResult) };
+      if (!processedResult.tone && processedResult.analysis) {
+        processedResult.tone = extractToneFromAnalysis(processedResult.analysis);
+      }
+      
+      setResult(processedResult);
       
       // Save the analysis to the database
       if (user) {
@@ -61,9 +95,14 @@ const Analyzer = () => {
           });
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error analyzing sentiment:', err);
-      setError(err.message || 'Failed to analyze text. Please try again.');
+      // Type guard to check if err is an Error object before accessing message property
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Failed to analyze text. Please try again.');
+      }
     } finally {
       setIsAnalyzing(false);
     }
