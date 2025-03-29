@@ -205,10 +205,12 @@ const Analyzer = () => {
                     </div>
                   )}
                   
-                  {/* Detailed Analysis */}
+                  {/* Detailed Analysis - Fixed to display just the text analysis */}
                   <div className="p-4 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                     <h3 className="text-lg font-bold mb-3">Detailed Analysis</h3>
-                    <p className="text-gray-800 whitespace-pre-line">{result.analysis}</p>
+                    <p className="text-gray-800 whitespace-pre-line">
+                      {typeof result.analysis === 'string' ? result.analysis : JSON.stringify(result.analysis)}
+                    </p>
                   </div>
                   
                   {/* Potentially Confusing Elements */}
