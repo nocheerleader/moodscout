@@ -1,9 +1,20 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from '@/contexts/AuthContext';
 
 const Index = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  
+  // If user is logged in, redirect to analyzer
+  useEffect(() => {
+    if (user) {
+      navigate('/analyzer');
+    }
+  }, [user, navigate]);
+
   return (
     <div className="min-h-screen bg-[#F8F9FA] overflow-x-hidden">
       {/* Hero Section */}
