@@ -35,16 +35,9 @@ Neurodiverse individuals often struggle with interpreting emotional and social c
 - Viewing analysis history
 
 ### Phase 2
-- Enhanced result visualizations
-- Text suggestions for improving tone
-- User profile and preferences
-- Filtering and searching analysis history
-
-### Phase 3
-- Browser extension for analyzing text anywhere
-- Export functionality for analysis results
-- Social sharing of anonymized insights
-- Advanced filtering and pattern recognition
+- Integrate with Eleven Labs API, two features: 
+- (A) "Hear the Tone" (TTS with Voice Styling): After analysis, identify the primary detected tone (e.g., "Sarcastic," "Angry," "Friendly," "Formal"). Use ElevenLabs' voice settings (if available/controllable via API for different styles/emotions within one voice, or by picking different pre-made voices mapped to tones) to read the original input text aloud in that tone.
+- (B) "Calm Explanation" Mode (TTS - Specific Voice): Offer an option to have the analysis read aloud by a specifically chosen, calm, reassuring, and clear ElevenLabs voice, designed to reduce anxiety when dealing with potentially negative or confusing results.
 
 ## User Flow
 1. User arrives at landing page
@@ -116,7 +109,7 @@ Neurodiverse individuals often struggle with interpreting emotional and social c
 
 ## Development Phases
 
-### Phase 1: MVP (Weeks 1-2)
+### Phase 1: MVP -> COMPLETED 
 - Create project setup and landing page
 - Implement user authentication with Supabase
 - Build basic analyzer interface
@@ -125,21 +118,10 @@ Neurodiverse individuals often struggle with interpreting emotional and social c
 - Implement analysis history storage and retrieval
 - Deploy basic working version
 
-### Phase 2: Enhancement (Weeks 3-4)
-- Refine neo-brutalist design system
-- Improve result visualizations
-- Add text improvement suggestions
-- Implement user profiles and preferences
-- Add filtering and search to history
-- Improve error handling and edge cases
-
-### Phase 3: Expansion (Weeks 5-6)
-- Develop browser extension prototype
-- Add export functionality
-- Implement pattern recognition across analyses
-- Add advanced filtering options
-- Optimize performance
-- Conduct user testing and iterate
+### Phase 2: Eleven Labs    
+- Integrate the Eleven Labs API 
+- Add "Hear the Tone" feature 
+- Add "Calm Explanation" Mode 
 
 ## Success Metrics
 - User signup and retention rates
