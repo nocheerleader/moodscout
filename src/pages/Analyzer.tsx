@@ -41,11 +41,25 @@ const Analyzer = () => {
       
       // Save the analysis to the database
       if (user) {
-        await supabase.from('analyses').insert({
+        const { error: saveError } = await supabase.from('analyses').insert({
           user_id: user.id,
           input_text: inputText,
           analysis_result: data
         });
+
+        if (saveError) {
+          console.error('Error saving analysis:', saveError);
+          toast({
+            title: "Analysis Saved",
+            description: "Your analysis was completed but couldn't be saved to history.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Analysis Complete",
+            description: "Your text has been analyzed and saved to history.",
+          });
+        }
       }
     } catch (err: any) {
       console.error('Error analyzing sentiment:', err);
