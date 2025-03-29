@@ -78,42 +78,85 @@ serve(async (req) => {
     
     // Extract the content from Anthropic's response
     const content = responseData.content[0].text;
+    console.log('Raw content:', content);
     
-    // Parse the JSON from the content
     try {
-      // Find JSON object in the response
+      // Find JSON object in the response using regex with a better approach
       const jsonMatch = content.match(/\{[\s\S]*\}/);
-      let parsedResult;
       
       if (jsonMatch) {
-        parsedResult = JSON.parse(jsonMatch[0]);
+        // Try to safely parse the extracted JSON
+        try {
+          const parsedResult = JSON.parse(jsonMatch[0]);
+          return new Response(
+            JSON.stringify(parsedResult),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        } catch (innerError) {
+          console.error('JSON parsing error:', innerError);
+          
+          // Try to clean the JSON string by escaping quotes in text fields
+          let jsonStr = jsonMatch[0];
+          
+          // Create a manually constructed object as fallback
+          const fallbackResult = {
+            sentiment: content.includes('"sentiment": "positive"') ? "positive" : 
+                      content.includes('"sentiment": "negative"') ? "negative" : "neutral",
+            confidence: parseInt(content.match(/"confidence": (\d+)/)?.[1] || "50"),
+            emotions: [],
+            analysis: content,
+            potentially_confusing_elements: []
+          };
+          
+          // Try to extract emotions array
+          const emotionsMatch = content.match(/"emotions": \[(.*?)\]/);
+          if (emotionsMatch) {
+            try {
+              fallbackResult.emotions = JSON.parse('[' + emotionsMatch[1] + ']');
+            } catch (e) {
+              // If parsing fails, try to extract strings manually
+              const emotionItems = emotionsMatch[1].match(/"([^"]*)"/g);
+              if (emotionItems) {
+                fallbackResult.emotions = emotionItems.map(e => e.replace(/"/g, ''));
+              }
+            }
+          }
+          
+          return new Response(
+            JSON.stringify(fallbackResult),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
       } else {
-        // Fallback if JSON wasn't properly formatted
-        parsedResult = {
+        // Fallback if no JSON structure found
+        console.warn('No JSON structure found in Anthropic response, using fallback');
+        const fallbackResult = {
           sentiment: "neutral",
           confidence: 50,
           emotions: [],
           analysis: content,
           potentially_confusing_elements: []
         };
-        console.warn('Could not parse JSON from Anthropic response, using fallback');
+        
+        return new Response(
+          JSON.stringify(fallbackResult),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
       }
-      
-      return new Response(
-        JSON.stringify(parsedResult),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
     } catch (parseError) {
-      console.error('Error parsing JSON from Anthropic response:', parseError);
+      console.error('Error processing Anthropic response:', parseError);
       console.log('Raw content:', content);
       
       return new Response(
         JSON.stringify({
           error: 'Could not parse analysis results',
-          raw: content
+          sentiment: "neutral",
+          confidence: 50,
+          emotions: [],
+          analysis: "We encountered an error analyzing your text. Please try again with different wording.",
+          potentially_confusing_elements: []
         }),
         { 
-          status: 500, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         }
       );
@@ -121,7 +164,14 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in analyze-sentiment function:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        sentiment: "neutral",
+        confidence: 50,
+        emotions: [],
+        analysis: "An error occurred while processing your request. Please try again.",
+        potentially_confusing_elements: []
+      }),
       { 
         status: 500, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
