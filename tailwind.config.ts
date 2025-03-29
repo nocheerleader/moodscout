@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				moodscout: {
+					red: '#FF5A5F',
+					blue: '#3A86FF',
+					yellow: '#FCBF49',
+					background: '#F8F9FA',
+					text: '#212529',
+					error: '#D62828',
+					success: '#70E000',
 				}
 			},
 			borderRadius: {
@@ -89,6 +99,16 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			fontFamily: {
+				'space-grotesk': ['"Space Grotesk"', 'sans-serif'],
+				'inter': ['"Inter"', 'sans-serif'],
+			},
+			boxShadow: {
+				'brutal-sm': '4px 4px 0px 0px rgba(0,0,0,1)',
+				'brutal': '6px 6px 0px 0px rgba(0,0,0,1)',
+				'brutal-lg': '8px 8px 0px 0px rgba(0,0,0,1)',
+				'brutal-xl': '12px 12px 0px 0px rgba(0,0,0,1)',
 			}
 		}
 	},
