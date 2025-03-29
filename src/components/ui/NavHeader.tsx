@@ -97,7 +97,7 @@ function NavHeader() {
 
       {/* Mobile Menu - slides in from right */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50 bg-white">
+        <div className="md:hidden fixed inset-0 z-50 bg-yellow-500">
           <div className="flex flex-col h-full">
             <div className="flex justify-between items-center p-4 border-b">
               <Link to="/" onClick={() => setMobileMenuOpen(false)}>
