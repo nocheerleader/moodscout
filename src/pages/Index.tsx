@@ -100,7 +100,7 @@ const Index = () => {
             ].map((feature, index) => (
               <div 
                 key={index}
-                className="bg-[#67168d] border-4 border-black rounded-lg p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform hover:-translate-y-2 transition duration-300"
+                className="bg-[#3A86FF] border-4 border-black rounded-lg p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform hover:-translate-y-2 transition duration-300"
               >
                 <div className="text-4xl mb-4">{feature.icon}</div>
                 <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
@@ -112,16 +112,18 @@ const Index = () => {
       </section>
       
       {/* CTA Section */}
-      <section className="py-16">
+      <section id="pricing" className="py-16">
         <div className="container px-4 mx-auto">
+        <h2 className="text-4xl font-bold mb-6 text-center text-white">Pricing</h2>
+        <p className="text-xl mb-8 text-center text-white">Completely free while we're in beta!</p>
           <div className="bg-[#FCBF49] border-4 border-black rounded-lg p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <div className="text-center max-w-3xl mx-auto">
-              <h2 className="text-4xl font-bold mb-4">Ready to understand text like never before?</h2>
-              <p className="text-xl mb-8">MoodScout gives you the power to decode emotional subtext, making digital communication clearer and less stressful.</p>
+              <h2 className="text-4xl font-bold mb-4">Never worry about misreading the tone of written communication again</h2>
+              <p className="text-xl mb-8">MoodScout decodes emotional subtext clearly and quickly, helping you communicate confidently and anxiety-free</p>
               <Button
-                className="bg-[#FF5A5F] hover:bg-[#FF5A5F]/90 text-white rounded-md px-8 py-6 text-xl font-bold border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform transition hover:-translate-y-1"
+                className="bg-[#f93d2b] hover:bg-[#FF5A5F]/100 text-white rounded-md px-8 py-6 text-xl font-bold border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform transition hover:-translate-y-1"
               >
-                <Link to="/signup">Get Started For Free</Link>
+                <Link to="/signup">Claim Your Free Beta Access</Link>
               </Button>
             </div>
           </div>
@@ -133,8 +135,8 @@ const Index = () => {
         <div className="container px-4 mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center gap-2 mb-4 md:mb-0">
-              <span className="text-2xl font-bold">MoodScout</span>
-              <span className="text-sm">© 2023</span>
+              <span className="text-white text-2xl font-bold">MoodScout</span>
+              <span className="text-sm">© 2025</span>
             </div>
             
             <div className="flex gap-6">

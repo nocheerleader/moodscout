@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 // Define the position type
 type PositionType = {
@@ -18,9 +18,22 @@ function NavHeader() {
     opacity: 0,
   });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(prev => !prev);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    // Only scroll if we're on the home page
+    if (location.pathname === '/') {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+        return true; // Indicates we handled the navigation internally
+      }
+    }
+    return false; // Navigation should proceed normally
   };
 
   return (
@@ -40,7 +53,7 @@ function NavHeader() {
             onMouseLeave={() => setPosition((pv) => ({ ...pv, opacity: 0 }))}
           >
             <Tab setPosition={setPosition} to="/">Home</Tab>
-            <Tab setPosition={setPosition} to="/pricing">Pricing</Tab>
+            <Tab setPosition={setPosition} to="/pricing" sectionId="pricing" scrollToSection={scrollToSection}>Pricing</Tab>
             <Tab setPosition={setPosition} to="/about">About</Tab>
             <Tab setPosition={setPosition} to="/login">Login</Tab>
 
@@ -113,7 +126,7 @@ function NavHeader() {
             <div className="flex-1 p-4">
               <ul className="flex flex-col space-y-6 text-xl">
                 <MobileNavItem to="/" onClick={toggleMobileMenu}>Home</MobileNavItem>
-                <MobileNavItem to="/pricing" onClick={toggleMobileMenu}>Pricing</MobileNavItem>
+                <MobileNavItem to="/pricing" onClick={toggleMobileMenu} sectionId="pricing" scrollToSection={scrollToSection}>Pricing</MobileNavItem>
                 <MobileNavItem to="/about" onClick={toggleMobileMenu}>About</MobileNavItem>
                 <MobileNavItem to="/login" onClick={toggleMobileMenu}>Login</MobileNavItem>
               </ul>
@@ -128,18 +141,29 @@ function NavHeader() {
 const MobileNavItem = ({
   children,
   to,
-  onClick
+  onClick,
+  sectionId,
+  scrollToSection
 }: {
   children: React.ReactNode;
   to: string;
   onClick: () => void;
+  sectionId?: string;
+  scrollToSection?: (sectionId: string) => boolean;
 }) => {
+  const handleClick = (e: React.MouseEvent) => {
+    if (sectionId && scrollToSection && scrollToSection(sectionId)) {
+      e.preventDefault();
+    }
+    onClick();
+  };
+
   return (
     <li className="border-b border-gray-200 pb-2">
       <Link 
         to={to} 
         className="block w-full font-medium"
-        onClick={onClick}
+        onClick={handleClick}
       >
         {children}
       </Link>
@@ -150,13 +174,24 @@ const MobileNavItem = ({
 const Tab = ({
   children,
   setPosition,
-  to
+  to,
+  sectionId,
+  scrollToSection
 }: {
   children: React.ReactNode;
   setPosition: React.Dispatch<React.SetStateAction<PositionType>>;
   to: string;
+  sectionId?: string;
+  scrollToSection?: (sectionId: string) => boolean;
 }) => {
   const ref = useRef<HTMLLIElement>(null);
+  
+  const handleClick = (e: React.MouseEvent) => {
+    if (sectionId && scrollToSection && scrollToSection(sectionId)) {
+      e.preventDefault();
+    }
+  };
+  
   return (
     <li
       ref={ref}
@@ -172,7 +207,7 @@ const Tab = ({
       }}
       className="relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-white mix-blend-difference md:px-5 md:py-3 md:text-base"
     >
-      <Link to={to} className="block w-full h-full">
+      <Link to={to} className="block w-full h-full" onClick={handleClick}>
         {children}
       </Link>
     </li>
