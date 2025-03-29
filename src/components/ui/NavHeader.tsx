@@ -29,7 +29,7 @@ function NavHeader() {
         {/* Logo on the left, aligned with content */}
         <div className="z-10">
           <Link to="/">
-            <img src="/logo.png" alt="MoodScout Logo" width={120} height={60} className="object-contain" />
+            <img src="/logo.png" alt="MoodScout Logo" width={220} height={60} className="object-contain" />
           </Link>
         </div>
         

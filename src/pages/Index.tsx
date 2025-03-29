@@ -16,7 +16,7 @@ const Index = () => {
   }, [user, navigate]);
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] overflow-x-hidden">
+    <div className="min-h-screen bg-[#67168d] overflow-x-hidden">
       {/* Navigation */}
       <nav className="pt-6 pb-6">
         <NavHeader />
@@ -27,21 +27,21 @@ const Index = () => {
         <div className="container px-4 mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="w-full md:w-1/2 space-y-6">
-              <div className="inline-block px-4 py-2 bg-[#FCBF49] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] font-bold rounded-lg transform -rotate-2">
+              <div className="inline-block px-4 py-2 bg-[#ffcf00] border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] font-bold rounded-lg transform -rotate-2">
                 <span className="text-lg">Designed by a neurodiverse mind for neurodiverse minds</span>
               </div>
               
               <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-                Understand <span className="text-[#FF5A5F]">tone</span> and <span className="text-[#3A86FF]">sentiment</span> in text
+                Understand <span className="text-[#f93d2b]">tone</span> and <span className="text-[#3A86FF]">sentiment</span> in text
               </h1>
               
-              <p className="text-xl md:text-2xl text-gray-700">
-                MoodScout helps you decode the emotional subtext in social media posts, emails, and messages.
+              <p className="text-xl md:text-2xl text-[#baff29]">
+                MoodScout helps you decode the emotional subtext in social media posts, emails and text messages
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button
-                  className="bg-[#FF5A5F] hover:bg-[#FF5A5F]/90 text-white rounded-md px-6 py-6 text-xl font-bold border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform transition hover:-translate-y-1"
+                  className="bg-[#f93d2b] hover:bg-[#f93d2b]/90 text-white rounded-md px-6 py-6 text-xl font-bold border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform transition hover:-translate-y-1"
                 >
                   <Link to="/signup">Get Started</Link>
                 </Button>
