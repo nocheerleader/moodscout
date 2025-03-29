@@ -1,8 +1,8 @@
-
 import React, { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '@/contexts/AuthContext';
+import NavHeader from '@/components/ui/NavHeader';
 
 const Index = () => {
   const { user } = useAuth();
@@ -17,6 +17,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] overflow-x-hidden">
+      {/* Navigation */}
+      <nav className="pt-6 pb-6">
+        <NavHeader />
+      </nav>
+      
       {/* Hero Section */}
       <section className="py-10 md:py-16">
         <div className="container px-4 mx-auto">
