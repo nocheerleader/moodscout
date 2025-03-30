@@ -28,7 +28,7 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ result, isAnalyzing, er
   return (
     <div className="relative">
       <div className="absolute -top-3 -left-3 w-full h-full bg-[#3A86FF]/20 rounded-lg border-4 border-black"></div>
-      <div className="relative z-10 bg-white p-6 rounded-lg border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] h-full overflow-y-auto max-h-[650px]">
+      <div className="relative z-10 bg-white p-6 rounded-lg border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] h-full">
         <h2 className="text-2xl font-bold mb-4">Analysis Results</h2>
         
         {error && (
