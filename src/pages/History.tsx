@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -5,7 +6,6 @@ import { toast } from '@/hooks/use-toast';
 import HistoryHeader from '@/components/history/HistoryHeader';
 import HistoryContent from '@/components/history/HistoryContent';
 import type { AnalysisResult } from '@/components/analyzer/ResultsSection';
-import type { Json } from '@/integrations/supabase/types';
 
 interface Analysis {
   id: string;
@@ -34,6 +34,7 @@ const History = () => {
       const { data, error } = await supabase
         .from('analyses')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
       
       if (error) {
@@ -45,12 +46,11 @@ const History = () => {
         id: item.id,
         created_at: item.created_at,
         input_text: item.input_text,
-        user_id: item.user_id,
         analysis_result: item.analysis_result as AnalysisResult
       }));
       
       setAnalyses(typedAnalyses);
-    } catch (err: Error | unknown) {
+    } catch (err) {
       console.error('Error fetching analyses:', err);
       setError(err instanceof Error ? err.message : 'Failed to load analysis history');
     } finally {
@@ -62,21 +62,25 @@ const History = () => {
     if (!user) return;
     
     try {
+      // First delete from the database
       const { error } = await supabase
         .from('analyses')
         .delete()
-        .match({ id });
+        .eq('id', id)
+        .eq('user_id', user.id);
       
       if (error) {
         throw new Error(error.message);
       }
       
+      // Then update the UI state
       setAnalyses(analyses.filter(analysis => analysis.id !== id));
+      
       toast({
         title: "Analysis Deleted",
         description: "The analysis has been removed from your history.",
       });
-    } catch (err: Error | unknown) {
+    } catch (err) {
       console.error('Error deleting analysis:', err);
       toast({
         title: "Error",
@@ -90,21 +94,24 @@ const History = () => {
     if (!user) return;
     
     try {
+      // First delete from the database
       const { error } = await supabase
         .from('analyses')
         .delete()
-        .match({ user_id: user.id });
+        .eq('user_id', user.id);
       
       if (error) {
         throw new Error(error.message);
       }
       
+      // Then update the UI state
       setAnalyses([]);
+      
       toast({
         title: "History Cleared",
         description: "Your analysis history has been cleared.",
       });
-    } catch (err: Error | unknown) {
+    } catch (err) {
       console.error('Error clearing history:', err);
       toast({
         title: "Error",
