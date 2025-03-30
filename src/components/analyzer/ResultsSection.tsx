@@ -23,9 +23,22 @@ interface ResultsSectionProps {
   result: AnalysisResult | null;
   isAnalyzing: boolean;
   error: string | null;
+  elevenLabsApiKey?: string | null;
 }
 
-const ResultsSection: React.FC<ResultsSectionProps> = ({ result, isAnalyzing, error }) => {
+const ResultsSection: React.FC<ResultsSectionProps> = ({ 
+  result, 
+  isAnalyzing, 
+  error, 
+  elevenLabsApiKey = env.ELEVEN_LABS_API_KEY 
+}) => {
+  // Log for debugging
+  console.log("ResultsSection render:", { 
+    hasTone: result?.tone, 
+    hasApiKey: !!elevenLabsApiKey,
+    shouldShowPlayer: !!(result?.tone && elevenLabsApiKey)
+  });
+
   return (
     <div className="relative">
       <div className="absolute -top-3 -left-3 w-full h-full bg-[#3A86FF]/20 rounded-lg border-4 border-black"></div>
@@ -53,14 +66,14 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ result, isAnalyzing, er
               confidence={result.confidence} 
             />
             
-            {/* Tone Player - Only show if API key is available */}
-            {result.tone && env.ELEVEN_LABS_API_KEY && (
+            {/* Tone Player - Always show if we have a tone */}
+            {result.tone && (
               <div className="p-4 border-4 border-black rounded-lg bg-[#FFD166]/100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <h3 className="text-lg font-bold mb-2">Hear this in {result.tone} tone</h3>
                 <TonePlayer
                   text={result.analysis}
                   tone={result.tone}
-                  apiKey={env.ELEVEN_LABS_API_KEY}
+                  apiKey={elevenLabsApiKey}
                 />
               </div>
             )}
@@ -73,17 +86,6 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ result, isAnalyzing, er
             
             {/* Potentially Confusing Elements */}
             <ConfusingElementsCard elements={result.potentially_confusing_elements} />
-
-            {/* Debug Info (only in development) - Commented out but kept for future debugging needs
-            {import.meta.env.DEV && (
-              <div className="border border-dashed border-gray-300 p-4 mt-4 bg-gray-50 rounded">
-                <h3 className="text-sm font-bold mb-2">Debug Info</h3>
-                <pre className="text-xs overflow-auto max-h-40 bg-white p-2 border border-gray-200 rounded">
-                  {JSON.stringify(result, null, 2)}
-                </pre>
-              </div>
-            )}
-            */}
           </div>
         ) : (
           <div className="mt-8 flex items-center justify-center h-64">

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { env } from '@/config/env';
 import AnalyzerHeader from '@/components/analyzer/AnalyzerHeader';
 import InputSection from '@/components/analyzer/InputSection';
 import ResultsSection from '@/components/analyzer/ResultsSection';
@@ -42,6 +44,12 @@ const Analyzer = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [elevenLabsApiKey, setElevenLabsApiKey] = useState<string | null>(env.ELEVEN_LABS_API_KEY);
+  
+  // Log API key presence for debugging
+  useEffect(() => {
+    console.log("ElevenLabs API Key available:", !!elevenLabsApiKey);
+  }, [elevenLabsApiKey]);
   
   const analyzeSentiment = async () => {
     if (!inputText.trim()) {
@@ -71,6 +79,7 @@ const Analyzer = () => {
         processedResult.tone = extractToneFromAnalysis(processedResult.analysis);
       }
       
+      console.log("Analysis result with tone:", processedResult);
       setResult(processedResult);
       
       // Save the analysis to the database
@@ -132,6 +141,7 @@ const Analyzer = () => {
             result={result}
             isAnalyzing={isAnalyzing}
             error={error}
+            elevenLabsApiKey={elevenLabsApiKey}
           />
         </div>
       </main>
