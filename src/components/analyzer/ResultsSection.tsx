@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { env } from '@/config/env';
@@ -33,11 +33,14 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({
   elevenLabsApiKey = env.ELEVEN_LABS_API_KEY 
 }) => {
   // Log for debugging
-  console.log("ResultsSection render:", { 
-    hasTone: result?.tone, 
-    hasApiKey: !!elevenLabsApiKey,
-    shouldShowPlayer: !!(result?.tone && elevenLabsApiKey)
-  });
+  useEffect(() => {
+    console.log("ResultsSection loaded with:", { 
+      hasTone: !!result?.tone, 
+      hasApiKey: !!elevenLabsApiKey,
+      apiKeyValue: elevenLabsApiKey ? "API key exists" : "No API key",
+      envApiKey: env.ELEVEN_LABS_API_KEY ? "ENV API key exists" : "No ENV API key"
+    });
+  }, [result, elevenLabsApiKey]);
 
   return (
     <div className="relative">

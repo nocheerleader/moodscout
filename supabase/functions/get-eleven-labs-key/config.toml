@@ -1,0 +1,16 @@
+
+[build]
+api_key_required = true
+
+[deploy]
+allow_unauthenticated_http_requests = false
+allowed_import_urls = ["https://deno.land"]
+allowed_hosts = ["api.elevenlabs.io"]
+exclude_include_default_config = false
+ignore = ["*.git*"]
+include = []
+max_memory_mb = 256
+max_runtime_ms = 5000
+memory_high_water_mark_percent = 50
+memory_high_water_mark_trace_percent = 80
+no_check = false

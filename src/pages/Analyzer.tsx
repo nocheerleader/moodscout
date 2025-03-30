@@ -44,7 +44,36 @@ const Analyzer = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [elevenLabsApiKey, setElevenLabsApiKey] = useState<string | null>(env.ELEVEN_LABS_API_KEY);
+  const [elevenLabsApiKey, setElevenLabsApiKey] = useState<string | null>(null);
+  
+  // Fetch the API key from Supabase when the component mounts
+  useEffect(() => {
+    async function fetchApiKey() {
+      try {
+        const { data, error } = await supabase.functions.invoke('get-eleven-labs-key');
+        
+        if (error) {
+          console.error('Error fetching API key:', error);
+          return;
+        }
+        
+        if (data && data.apiKey) {
+          console.log('Successfully retrieved API key from Supabase');
+          setElevenLabsApiKey(data.apiKey);
+        } else {
+          // Fallback to env variable if the function doesn't return a key
+          console.log('Using fallback API key from environment');
+          setElevenLabsApiKey(env.ELEVEN_LABS_API_KEY);
+        }
+      } catch (err) {
+        console.error('Error invoking get-eleven-labs-key function:', err);
+        // Fallback to env variable
+        setElevenLabsApiKey(env.ELEVEN_LABS_API_KEY);
+      }
+    }
+    
+    fetchApiKey();
+  }, []);
   
   // Log API key presence for debugging
   useEffect(() => {
