@@ -109,13 +109,14 @@ const Analyzer = () => {
   };
   
   return (
-    <div className="min-h-screen bg-[#F8F9FA]">
+    <div className="min-h-screen bg-[#67168d]">
       {/* Header */}
       <AnalyzerHeader signOut={signOut} />
       
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Text Analyzer</h1>
+        <h1 className="text-white text-4xl font-bold mb-8">Text Analyzer</h1>
+        <p className="text-white text-l mb-8">Paste your message into the box below and click "Analyze Text" to instantly identify the emotional tone and sentiment.</p>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Input Section */}

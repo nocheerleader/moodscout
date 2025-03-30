@@ -58,16 +58,12 @@ const Index = () => {
             <div className="w-full md:w-1/2">
               <div className="relative">
                 <div className="absolute -top-5 -left-5 w-full h-full bg-[#3A86FF] rounded-lg border-4 border-black"></div>
-                <div className="relative z-10 bg-white rounded-lg border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                  <div className="space-y-6">
-                    <div className="bg-gray-100 p-5 rounded-md border-2 border-black">
-                      <p className="text-lg">I'm not sure if my email sounds too demanding...</p>
-                    </div>
-                    <div className="bg-[#70E000]/20 p-5 rounded-md border-2 border-black">
-                      <h3 className="font-bold">Analysis:</h3>
-                      <p>Your message sounds <span className="font-bold text-[#3A86FF]">professional</span> with a <span className="font-bold text-[#70E000]">neutral tone</span>. Try adding "I appreciate your help" to soften it.</p>
-                    </div>
-                  </div>
+                <div className="relative z-10 bg-white rounded-lg border-4 border-black overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                  <img 
+                    src="/hero-img.png" 
+                    alt="MoodScout text analysis example" 
+                    className="w-full h-auto"
+                  />
                 </div>
               </div>
             </div>

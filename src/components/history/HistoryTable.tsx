@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
+import { Trash2 } from 'lucide-react';
 import type { AnalysisResult } from '@/components/analyzer/ResultsSection';
 
 interface Analysis {
@@ -14,9 +14,10 @@ interface Analysis {
 interface HistoryTableProps {
   analyses: Analysis[];
   onViewDetails: (analysis: Analysis) => void;
+  onDeleteAnalysis: (id: string) => void;
 }
 
-const HistoryTable: React.FC<HistoryTableProps> = ({ analyses, onViewDetails }) => {
+const HistoryTable: React.FC<HistoryTableProps> = ({ analyses, onViewDetails, onDeleteAnalysis }) => {
   
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -59,12 +60,21 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ analyses, onViewDetails }) 
               </span>
             </TableCell>
             <TableCell>
-              <Button 
-                onClick={() => onViewDetails(analysis)}
-                className="brutal-button-secondary text-xs px-2 py-1"
-              >
-                View Details
-              </Button>
+              <div className="flex space-x-2">
+                <Button 
+                  onClick={() => onViewDetails(analysis)}
+                  className="brutal-button-secondary text-xs px-2 py-1"
+                >
+                  View Details
+                </Button>
+                <Button 
+                  onClick={() => onDeleteAnalysis(analysis.id)}
+                  className="brutal-button-destructive text-xs px-2 py-1"
+                  title="Delete analysis"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             </TableCell>
           </TableRow>
         ))}

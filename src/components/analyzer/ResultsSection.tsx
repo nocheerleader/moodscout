@@ -54,7 +54,7 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ result, isAnalyzing, er
             
             {/* Tone Player */}
             {result.tone && (
-              <div className="p-4 border-4 border-black rounded-lg bg-[#FFD166]/20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <div className="p-4 border-4 border-black rounded-lg bg-[#FFD166]/100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <h3 className="text-lg font-bold mb-2">Hear this in {result.tone} tone</h3>
                 <TonePlayer
                   text={result.analysis}
@@ -73,7 +73,7 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ result, isAnalyzing, er
             {/* Potentially Confusing Elements */}
             <ConfusingElementsCard elements={result.potentially_confusing_elements} />
 
-            {/* Debug Info (only in development) */}
+            {/* Debug Info (only in development) - Commented out but kept for future debugging needs
             {import.meta.env.DEV && (
               <div className="border border-dashed border-gray-300 p-4 mt-4 bg-gray-50 rounded">
                 <h3 className="text-sm font-bold mb-2">Debug Info</h3>
@@ -82,6 +82,7 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ result, isAnalyzing, er
                 </pre>
               </div>
             )}
+            */}
           </div>
         ) : (
           <div className="mt-8 flex items-center justify-center h-64">

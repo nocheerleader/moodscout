@@ -135,4 +135,8 @@
   .brutal-button-outline {
     @apply brutal-button bg-white text-black hover:bg-gray-100;
   }
+  
+  .brutal-button-destructive {
+    @apply brutal-button bg-red-500 text-white hover:bg-red-600;
+  }
 }
