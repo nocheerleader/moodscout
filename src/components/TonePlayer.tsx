@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { getVoiceForTone } from '@/lib/voiceMappings';
@@ -7,7 +8,7 @@ import { PlayIcon, PauseIcon, Loader2Icon } from 'lucide-react';
 interface TonePlayerProps {
   text: string;
   tone: string;
-  apiKey: string;
+  apiKey: string | null;
 }
 
 export function TonePlayer({ text, tone, apiKey }: TonePlayerProps) {
@@ -15,7 +16,7 @@ export function TonePlayer({ text, tone, apiKey }: TonePlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const elevenLabsService = useRef(new ElevenLabsService(apiKey));
+  const elevenLabsService = useRef(apiKey ? new ElevenLabsService(apiKey) : null);
 
   useEffect(() => {
     // Cleanup function
@@ -30,6 +31,12 @@ export function TonePlayer({ text, tone, apiKey }: TonePlayerProps) {
   const handlePlay = async () => {
     try {
       setError(null);
+      
+      // Check if API key is available
+      if (!apiKey || !elevenLabsService.current) {
+        setError('ElevenLabs API key is not configured');
+        return;
+      }
       
       // If we already have audio loaded, just play/pause it
       if (audioRef.current) {
@@ -77,7 +84,7 @@ export function TonePlayer({ text, tone, apiKey }: TonePlayerProps) {
     <div className="flex flex-col items-center gap-2">
       <Button
         onClick={handlePlay}
-        disabled={isLoading}
+        disabled={isLoading || !apiKey}
         variant="outline"
         className="w-full max-w-xs"
       >
@@ -89,7 +96,11 @@ export function TonePlayer({ text, tone, apiKey }: TonePlayerProps) {
           <PlayIcon className="h-4 w-4" />
         )}
         <span className="ml-2">
-          {isLoading ? 'Generating...' : isPlaying ? 'Pause' : 'Play in ' + tone + ' tone'}
+          {!apiKey ? 'API Key Not Configured' : 
+            isLoading ? 'Generating...' : 
+            isPlaying ? 'Pause' : 
+            'Play in ' + tone + ' tone'
+          }
         </span>
       </Button>
       
@@ -98,4 +109,4 @@ export function TonePlayer({ text, tone, apiKey }: TonePlayerProps) {
       )}
     </div>
   );
-} 
+}

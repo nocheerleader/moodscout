@@ -1,15 +1,17 @@
+
 interface EnvConfig {
-  ELEVEN_LABS_API_KEY: string;
+  ELEVEN_LABS_API_KEY: string | null;
 }
 
 export const env: EnvConfig = {
-  ELEVEN_LABS_API_KEY: import.meta.env.VITE_ELEVEN_LABS_API_KEY || '',
+  ELEVEN_LABS_API_KEY: import.meta.env.VITE_ELEVEN_LABS_API_KEY || null,
 };
 
 // Validate required environment variables
 const validateEnv = () => {
-  const required: (keyof EnvConfig)[] = ['ELEVEN_LABS_API_KEY'];
-  const missing = required.filter(key => !env[key]);
+  // No required environment variables for now
+  // We'll make ElevenLabs optional
+  const missing: string[] = [];
 
   if (missing.length > 0) {
     throw new Error(

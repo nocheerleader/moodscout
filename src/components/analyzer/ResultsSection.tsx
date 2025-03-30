@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -52,8 +53,8 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ result, isAnalyzing, er
               confidence={result.confidence} 
             />
             
-            {/* Tone Player */}
-            {result.tone && (
+            {/* Tone Player - Only show if API key is available */}
+            {result.tone && env.ELEVEN_LABS_API_KEY && (
               <div className="p-4 border-4 border-black rounded-lg bg-[#FFD166]/100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <h3 className="text-lg font-bold mb-2">Hear this in {result.tone} tone</h3>
                 <TonePlayer
