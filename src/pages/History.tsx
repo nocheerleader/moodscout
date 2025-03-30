@@ -21,7 +21,9 @@ const History = () => {
   const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
-    fetchAnalyses();
+    if (user) {
+      fetchAnalyses();
+    }
   }, [user]);
   
   const fetchAnalyses = async () => {
@@ -71,7 +73,8 @@ const History = () => {
         .from('analyses')
         .delete()
         .eq('id', id)
-        .eq('user_id', user.id);
+        .eq('user_id', user.id)
+        .select(); // Add .select() to return the deleted row(s)
       
       console.log('Delete response:', { data, error }); // Debug log
       
@@ -86,6 +89,9 @@ const History = () => {
         title: "Analysis Deleted",
         description: "The analysis has been removed from your history.",
       });
+      
+      // Refresh the list to ensure sync with the database
+      fetchAnalyses();
     } catch (err) {
       console.error('Error deleting analysis:', err);
       toast({
@@ -106,7 +112,8 @@ const History = () => {
       const { data, error } = await supabase
         .from('analyses')
         .delete()
-        .eq('user_id', user.id);
+        .eq('user_id', user.id)
+        .select(); // Add .select() to return the deleted rows
       
       console.log('Clear history response:', { data, error }); // Debug log
       
@@ -121,6 +128,9 @@ const History = () => {
         title: "History Cleared",
         description: "Your analysis history has been cleared.",
       });
+      
+      // Refresh the list to ensure sync with the database
+      fetchAnalyses();
     } catch (err) {
       console.error('Error clearing history:', err);
       toast({

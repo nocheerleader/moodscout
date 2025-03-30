@@ -38,7 +38,11 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ analyses, onViewDetails, on
   
   const handleDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // Prevent row click event from firing
-    onDeleteAnalysis(id);
+    
+    // Confirm before deleting
+    if (window.confirm('Are you sure you want to delete this analysis?')) {
+      onDeleteAnalysis(id);
+    }
   };
   
   return (
