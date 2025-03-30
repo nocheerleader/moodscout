@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -9,10 +8,16 @@ interface AnalyzerHeaderProps {
 
 const AnalyzerHeader: React.FC<AnalyzerHeaderProps> = ({ signOut }) => {
   return (
-    <header className="border-b-4 border-black bg-white">
+    <header className="border-b-4 border-black bg-blue-500 text-white">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold">MoodScout</Link>
+          <Link to="/">
+            <img 
+              src="/logo.png" 
+              alt="MoodScout Logo" 
+              className="h-10" 
+            />
+          </Link>
           
           <div className="flex items-center gap-4">
             <Link to="/history" className="brutal-button-outline text-base px-4 py-2">

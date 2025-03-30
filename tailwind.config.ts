@@ -64,9 +64,10 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				moodscout: {
-					red: '#FF5A5F',
+					red: '#ff6f61',
+					purple: '#a259ff',
 					blue: '#3A86FF',
-					yellow: '#FCBF49',
+					yellow: '#ffcf00',
 					background: '#F8F9FA',
 					text: '#212529',
 					error: '#D62828',
@@ -112,5 +113,6 @@ export default {
 			}
 		}
 	},
+	// eslint-disable-next-line @typescript-eslint/no-require-imports
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -21,13 +20,15 @@ interface HistoryContentProps {
   isLoading: boolean;
   error: string | null;
   onClearHistory: () => void;
+  onDeleteAnalysis: (id: string) => void;
 }
 
 const HistoryContent: React.FC<HistoryContentProps> = ({ 
   analyses, 
   isLoading, 
   error, 
-  onClearHistory 
+  onClearHistory,
+  onDeleteAnalysis
 }) => {
   const [selectedAnalysis, setSelectedAnalysis] = useState<Analysis | null>(null);
   
@@ -81,6 +82,7 @@ const HistoryContent: React.FC<HistoryContentProps> = ({
               <HistoryTable 
                 analyses={analyses}
                 onViewDetails={setSelectedAnalysis}
+                onDeleteAnalysis={onDeleteAnalysis}
               />
             )}
           </>

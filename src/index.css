@@ -1,4 +1,4 @@
-
+/* postcss-ignore-next */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
@@ -121,7 +121,7 @@
   }
   
   .brutal-button-primary {
-    @apply brutal-button bg-moodscout-red text-white hover:bg-moodscout-red/90;
+    @apply bg-[#f93d2b] text-white hover:bg-[#f93d2b];
   }
   
   .brutal-button-secondary {
@@ -134,5 +134,9 @@
   
   .brutal-button-outline {
     @apply brutal-button bg-white text-black hover:bg-gray-100;
+  }
+  
+  .brutal-button-destructive {
+    @apply brutal-button bg-red-500 text-white hover:bg-red-600;
   }
 }

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -51,11 +50,39 @@ const History = () => {
       }));
       
       setAnalyses(typedAnalyses);
-    } catch (err: any) {
+    } catch (err: Error | unknown) {
       console.error('Error fetching analyses:', err);
-      setError(err.message || 'Failed to load analysis history');
+      setError(err instanceof Error ? err.message : 'Failed to load analysis history');
     } finally {
       setIsLoading(false);
+    }
+  };
+  
+  const deleteAnalysis = async (id: string) => {
+    if (!user) return;
+    
+    try {
+      const { error } = await supabase
+        .from('analyses')
+        .delete()
+        .match({ id });
+      
+      if (error) {
+        throw new Error(error.message);
+      }
+      
+      setAnalyses(analyses.filter(analysis => analysis.id !== id));
+      toast({
+        title: "Analysis Deleted",
+        description: "The analysis has been removed from your history.",
+      });
+    } catch (err: Error | unknown) {
+      console.error('Error deleting analysis:', err);
+      toast({
+        title: "Error",
+        description: err instanceof Error ? err.message : 'Failed to delete analysis',
+        variant: "destructive",
+      });
     }
   };
   
@@ -77,11 +104,11 @@ const History = () => {
         title: "History Cleared",
         description: "Your analysis history has been cleared.",
       });
-    } catch (err: any) {
+    } catch (err: Error | unknown) {
       console.error('Error clearing history:', err);
       toast({
         title: "Error",
-        description: err.message || 'Failed to clear history',
+        description: err instanceof Error ? err.message : 'Failed to clear history',
         variant: "destructive",
       });
     }
@@ -99,6 +126,7 @@ const History = () => {
           isLoading={isLoading}
           error={error}
           onClearHistory={clearHistory}
+          onDeleteAnalysis={deleteAnalysis}
         />
       </main>
     </div>

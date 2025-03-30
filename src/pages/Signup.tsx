@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -34,9 +33,9 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] flex flex-col items-center justify-center p-4">
-      <Link to="/" className="mb-8 text-3xl font-bold text-black hover:text-[#FF5A5F] transition-colors">
-        MoodScout
+    <div className="min-h-screen bg-[#67168d] flex flex-col items-center justify-center p-4">
+      <Link to="/" className="mb-8 hover:opacity-80 transition-opacity">
+        <img src="/logo.png" alt="MoodScout Logo" className="h-16" />
       </Link>
       
       <div className="w-full max-w-md relative">
