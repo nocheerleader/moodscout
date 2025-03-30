@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std/http/server.ts";
 
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY');
@@ -135,26 +136,27 @@ serve(async (req) => {
         messages: [
           {
             role: "user",
-            content: `Analyze the sentiment, tone, and emotional content of the following text. 
-            Be detailed and specific about the emotions detected, and specify whether the overall sentiment is positive, negative, or neutral.
-            Provide a confidence score from 0-100 for your analysis.
-            Also, highlight any parts that might be confusing or ambiguous for neurodiverse individuals.
-            
-            IMPORTANT: For the tone field in your JSON response, you MUST choose exactly one of these options: friendly, formal, excited, calm.
-            
-            Format the response EXACTLY as JSON with the following structure:
-            {
-              "sentiment": "positive|negative|neutral",
-              "confidence": number from 0-100,
-              "emotions": ["emotion1", "emotion2", ...],
-              "tone": "friendly|formal|excited|calm",
-              "analysis": "detailed explanation",
-              "potentially_confusing_elements": ["element1", "element2", ...]
-            }
-            
-            You MUST include the tone field with one of the specified values.
-            
-            Text to analyze: ${text}`
+            content: `Analyze the sentiment, tone, and emotional content of the following text for neurodiverse users. 
+    Be detailed and specific about the emotions detected, and specify whether the overall sentiment is positive, negative, or neutral.
+    Provide a confidence score from 0-100 for your analysis.
+    Also, highlight any parts that might be confusing or ambiguous for neurodiverse individuals. 
+It is crucial for neurodiverse users to understand if potential underlying social cues, subtext, or possible misinterpretations (e.g., "This phrasing seems polite but could be interpreted as dismissive," or "The use of '...' might indicate unspoken thoughts or hesitation," or "This appears to be using sarcasm."). When creating your detailed explanation analysis this context is relevant to the user as they might miss these nuances.
+    
+    IMPORTANT: For the tone field in your JSON response, you MUST choose exactly one of these options: friendly, formal, excited, calm.
+    
+    Format the response EXACTLY as JSON with the following structure:
+    {
+      "sentiment": "positive|negative|neutral",
+      "confidence": number from 0-100,
+      "emotions": ["emotion1", "emotion2", ...],
+      "tone": "friendly|formal|excited|calm",
+      "analysis": "detailed explanation",
+      "potentially_confusing_elements": ["element1", "element2", ...]
+    }
+    
+    You MUST include the tone field with one of the specified values.
+    
+    Text to analyze: ${text}`
           }
         ]
       })
