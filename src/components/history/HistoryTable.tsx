@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button } from '@/components/ui/button';
@@ -35,6 +36,11 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ analyses, onViewDetails, on
     return text.slice(0, maxLength) + '...';
   };
   
+  const handleDelete = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation(); // Prevent row click event from firing
+    onDeleteAnalysis(id);
+  };
+  
   return (
     <Table>
       <TableHeader>
@@ -68,7 +74,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ analyses, onViewDetails, on
                   View Details
                 </Button>
                 <Button 
-                  onClick={() => onDeleteAnalysis(analysis.id)}
+                  onClick={(e) => handleDelete(e, analysis.id)}
                   className="brutal-button-destructive text-xs px-2 py-1"
                   title="Delete analysis"
                 >

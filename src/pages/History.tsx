@@ -41,6 +41,8 @@ const History = () => {
         throw new Error(error.message);
       }
       
+      console.log('Analyses fetched:', data); // Debug log
+      
       // Transform the data to ensure analysis_result is properly typed
       const typedAnalyses: Analysis[] = (data || []).map(item => ({
         id: item.id,
@@ -62,19 +64,23 @@ const History = () => {
     if (!user) return;
     
     try {
+      console.log(`Attempting to delete analysis with id: ${id}`); // Debug log
+      
       // First delete from the database
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('analyses')
         .delete()
         .eq('id', id)
         .eq('user_id', user.id);
+      
+      console.log('Delete response:', { data, error }); // Debug log
       
       if (error) {
         throw new Error(error.message);
       }
       
       // Then update the UI state
-      setAnalyses(analyses.filter(analysis => analysis.id !== id));
+      setAnalyses(prev => prev.filter(analysis => analysis.id !== id));
       
       toast({
         title: "Analysis Deleted",
@@ -94,11 +100,15 @@ const History = () => {
     if (!user) return;
     
     try {
+      console.log(`Attempting to clear history for user: ${user.id}`); // Debug log
+      
       // First delete from the database
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('analyses')
         .delete()
         .eq('user_id', user.id);
+      
+      console.log('Clear history response:', { data, error }); // Debug log
       
       if (error) {
         throw new Error(error.message);
