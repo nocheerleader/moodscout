@@ -72,7 +72,7 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({
             {/* Tone Player - Always show if we have a tone */}
             {result.tone && (
               <div className="p-4 border-4 border-black rounded-lg bg-[#FFD166]/100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="text-lg font-bold mb-2">Hear this in {result.tone} tone</h3>
+                <h3 className="text-lg font-bold mb-2">Listen to your detailed analysis</h3>
                 <TonePlayer
                   text={result.analysis}
                   tone={result.tone}
